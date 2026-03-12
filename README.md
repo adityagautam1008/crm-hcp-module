@@ -1,52 +1,22 @@
 # AI-First CRM – HCP Interaction Module
 
-A full-stack, AI-powered CRM system for Life Sciences field representatives to log and manage Healthcare Professional (HCP) interactions. Built with **React + Redux**, **FastAPI**, **LangGraph**, and **Groq (gemma2-9b-it)**.
+A full-stack, AI-powered CRM system for Life Sciences field representatives to log and manage Healthcare Professional (HCP) interactions. Built with React + Redux, FastAPI, LangGraph and Groq (llama-3.1-8b).
 
----
 
-## 🧠 Architecture Overview
+*********************************************************************************************
+TO RUN BACKEND -:
+1. OPEN TERMINAL 
+" cd backend "
+" source venv/bin/activate     
+python -m uvicorn main:app --reload --port 8000 " 
+2. THIS WILL RUN THE BACKEND AND NOW TO RUN THE FRONTEND 
+" cd frontend "
+" npm start "
+3. FOR MORE DETAIL YOU CAN DO THOUGH THIS FILE
 
-```
-┌─────────────────────────────────────────────────────┐
-│                  React Frontend (Port 3000)          │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐ │
-│  │  Form Mode  │  │  Chat Mode  │  │  History    │ │
-│  │  (Structured│  │  (AI Chat)  │  │  Panel      │ │
-│  │   Form)     │  │             │  │             │ │
-│  └──────┬──────┘  └──────┬──────┘  └─────────────┘ │
-│         │                │   Redux State Management  │
-└─────────┼────────────────┼────────────────────────--┘
-          │                │
-          ▼                ▼
-┌─────────────────────────────────────────────────────┐
-│              FastAPI Backend (Port 8000)             │
-│  /api/v1/interactions  /api/v1/hcps                 │
-│  /api/v1/agent/chat    /api/v1/tools/*              │
-└──────────────────┬──────────────────────────────────┘
-                   │
-                   ▼
-┌─────────────────────────────────────────────────────┐
-│              LangGraph Agent                         │
-│  ┌─────────────────────────────────────────────┐   │
-│  │  StateGraph (ReAct Pattern)                  │   │
-│  │  ┌───────┐  tools?  ┌──────────────────┐   │   │
-│  │  │ Agent │ ──────► │    Tool Node      │   │   │
-│  │  │ Node  │ ◄─────  │  (5 LangGraph     │   │   │
-│  │  └───────┘   done  │   Tools)          │   │   │
-│  │                     └──────────────────┘   │   │
-│  └─────────────────────────────────────────────┘   │
-│                   │ Groq API                        │
-│                   ▼ gemma2-9b-it                    │
-│  ┌─────────────────────────────────────────────┐   │
-│  │  Database (PostgreSQL)                       │   │
-│  │  Tables: hcps | interactions                 │   │
-│  └─────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────┘
-```
+*********************************************************************************************
 
----
-
-## 🛠️ Tech Stack
+ 🛠️ Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
@@ -60,7 +30,7 @@ A full-stack, AI-powered CRM system for Life Sciences field representatives to l
 
 ---
 
-## 🤖 LangGraph Agent & 5 Tools
+ 🤖 LangGraph Agent & 5 Tools
 
 The agent uses a **ReAct-style StateGraph** — it decides which tool to call based on the user's natural language input.
 
@@ -205,31 +175,17 @@ DATABASE_URL=postgresql://postgres:password@localhost:5432/crm_hcp_db
 
 Get your free Groq API key at: https://console.groq.com/keys
 
----
 
-## 📱 Feature Walkthrough
+ 📱 Feature Walkthrough
 
-### Dual Input Mode
+ Dual Input Mode
 | Mode | How it works |
-|------|-------------|
+
 | 📝 **Form Mode** | Structured fields with HCP search, date/time pickers, sentiment toggle, material/sample tags |
 | 🤖 **Chat Mode** | Conversational AI — type naturally, agent extracts all fields automatically |
 
-### Screen Layout
-```
-┌──────────────────┬──────────────────┬──────────────┐
-│   Form / Chat    │   AI Assistant   │  Interaction │
-│   (Tab Toggle)   │   (Chat Panel)   │  History     │
-│                  │                  │              │
-│  Log HCP form    │  "Met Dr Sharma  │  Recent logs │
-│  with all fields │  today..."       │  with cards  │
-└──────────────────┴──────────────────┴──────────────┘
-│  Tools: log_interaction | edit_interaction | search_hcp | follow-up | sentiment  │
-```
 
----
-
-## 📂 Project Structure
+📂 Project Structure
 
 ```
 crm-hcp-module/
@@ -237,7 +193,7 @@ crm-hcp-module/
 ├── backend/
 │   ├── main.py                    # FastAPI app + CORS + lifespan
 │   ├── requirements.txt
-│   ├── .env.example
+│   ├── .env
 │   ├── database/
 │   │   ├── __init__.py
 │   │   ├── db.py                  # SQLAlchemy engine + seed data
@@ -271,23 +227,10 @@ crm-hcp-module/
         │   └── api.js             # Axios instance
         └── styles/
             └── global.css
-```
 
----
 
-## 🎥 Video Demo Checklist
-- [ ] Show form mode — fill all fields and log an interaction
-- [ ] Show chat mode — type natural language, watch agent extract & log
-- [ ] Demo `search_hcp` tool via chat
-- [ ] Demo `get_followup_suggestions` tool
-- [ ] Demo `analyze_sentiment` tool
-- [ ] Demo `edit_interaction` tool
-- [ ] Show Swagger docs at /docs
-- [ ] Explain LangGraph StateGraph flow
 
----
-
-## 👨‍💻 Built With
+👨‍💻 Built With
 - [LangGraph](https://github.com/langchain-ai/langgraph) — AI Agent framework
 - [Groq](https://console.groq.com) — LLM inference (gemma2-9b-it)
 - [FastAPI](https://fastapi.tiangolo.com) — Python backend
